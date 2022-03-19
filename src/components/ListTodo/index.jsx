@@ -1,19 +1,25 @@
 import React from "react";
 import Todo from "../Todo";
 
-const ListTodo = ({ todos, removeTodo, toggleComplete }) => {
-  return (
-    <div>
-      {todos.map((todo) => (
-        <Todo
-          key={todo.id}
-          todo={todo}
-          removeTodo={removeTodo}
-          toggleComplete={toggleComplete}
-        />
-      ))}
-    </div>
-  );
-};
+class ListTodo extends React.Component {
+  constructor(props) {
+    super();
+  }
+
+  render() {
+    return (
+      <div>
+        {this.props.todos.map((todo) => (
+          <Todo
+            key={todo.id}
+            todo={todo}
+            removeTodo={this.props.removeTodo}
+            toggleComplete={this.props.toggleComplete}
+          />
+        ))}
+      </div>
+    );
+  }
+}
 
 export default ListTodo;

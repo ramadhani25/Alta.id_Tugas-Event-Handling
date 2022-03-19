@@ -1,46 +1,52 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 import style from "./style.module.css";
 
-const FormTodo = ({ addTodo }) => {
-  const [todo, setTodo] = useState({
-    id: "",
-    task: "",
-    completed: false,
-  });
+class FormTodo extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      todo: {
+        id: "",
+        task: "",
+        completed: false,
+      },
+    };
+  }
 
-  const handleTaskInputChange = (e) => {
-    setTodo({ ...todo, task: e.target.value });
+  handleTaskInputChange = (e) => {
+    this.setState({ todo: { ...this.state.todo, task: e.target.value } });
   };
 
-  const handleSubmit = (e) => {
+  handleSubmit = (e) => {
     e.preventDefault();
-
-    if (todo.task.trim()) {
-      addTodo({ ...todo, id: uuidv4() });
-      setTodo({ ...todo, task: "" });
+    if (this.state.todo.task.trim()) {
+      this.props.addTodo({ ...this.state.todo, id: uuidv4() });
+      this.setState({ todo: { ...this.state.todo, task: "" } });
     } else {
       alert("Isi input terlebih dahulu...");
     }
   };
 
-  return (
-    <div>
-      <form className={style.container} onSubmit={handleSubmit}>
-        <input
-          className={style.input}
-          type="text"
-          name="task"
-          value={todo.task}
-          onChange={handleTaskInputChange}
-        />
-        <button className={style.btn} type="submit">
-          Submit
-        </button>
-      </form>
-    </div>
-  );
-};
+  render() {
+    return (
+      <div>
+        <form className={style.container} onSubmit={this.handleSubmit}>
+          <input
+            className={style.input}
+            type="text"
+            name="task"
+            value={this.state.todo.task}
+            onChange={this.handleTaskInputChange}
+          />
+          <button className={style.btn} type="submit">
+            Submit
+          </button>
+        </form>
+      </div>
+    );
+  }
+}
 
 export default FormTodo;

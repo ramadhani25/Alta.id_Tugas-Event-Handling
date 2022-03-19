@@ -1,37 +1,44 @@
-import React from "react";
+import React, { Component } from "react";
 import style from "./style.module.css";
 
-const Todo = ({ todo, toggleComplete, removeTodo }) => {
-  const handleCheckboxClick = () => {
-    toggleComplete(todo.id);
+class Todo extends Component {
+  // ({ todo, toggleComplete, removeTodo })
+  constructor(props) {
+    super();
+  }
+
+  handleCheckboxClick = () => {
+    this.props.toggleComplete(this.props.todo.id);
   };
 
-  const handleRemoveClick = () => {
-    removeTodo(todo.id);
+  handleRemoveClick = () => {
+    this.props.removeTodo(this.props.todo.id);
   };
 
-  return (
-    <ul style={{ display: "flex" }}>
-      <div style={{ display: "flex" }}>
-        <input
-          type="checkbox"
-          checked={todo.completed}
-          onClick={handleCheckboxClick}
-        />
-        <li
-          style={{
-            listStyle: "none",
-            textDecoration: todo.completed ? "line-through" : null,
-          }}
-        >
-          {todo.task}
-        </li>
-      </div>
-      <button className={style.btn} onClick={handleRemoveClick}>
-        Delete
-      </button>
-    </ul>
-  );
-};
+  render() {
+    return (
+      <ul style={{ display: "flex" }}>
+        <div style={{ display: "flex" }}>
+          <input
+            type="checkbox"
+            defaultChecked={this.props.todo.completed}
+            onChange={this.handleCheckboxClick}
+          />
+          <li
+            style={{
+              listStyle: "none",
+              textDecoration: this.props.todo.completed ? "line-through" : null,
+            }}
+          >
+            {this.props.todo.task}
+          </li>
+        </div>
+        <button className={style.btn} onClick={this.handleRemoveClick}>
+          Delete
+        </button>
+      </ul>
+    );
+  }
+}
 
 export default Todo;

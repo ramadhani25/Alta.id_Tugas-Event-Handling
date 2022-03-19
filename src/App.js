@@ -1,18 +1,24 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import FormTodo from "./components/FormTodo/index";
 import ListTodo from "./components/ListTodo/index";
 
-const App = () => {
-  const [todos, setTodos] = useState([]);
+class App extends Component {
+  constructor(props) {
+    super();
+    this.state = {
+      todos: [],
+    };
+  }
+  // const [todos, setTodos] = useState([]);
 
-  const addTodo = (todo) => {
-    setTodos([todo, ...todos]);
+  addTodo = (todo) => {
+    this.setState({ todos: [todo, ...this.state.todos] });
   };
 
-  const toggleComplete = (id) => {
-    setTodos(
-      todos.map((todo) => {
+  toggleComplete = (id) => {
+    this.setState({
+      todos: this.state.todos.map((todo) => {
         if (todo.id === id) {
           return {
             ...todo,
@@ -20,25 +26,29 @@ const App = () => {
           };
         }
         return todo;
-      })
+      }),
+    });
+  };
+
+  removeTodo = (id) => {
+    const newTodo = this.state.todos.filter((todo) => todo.id !== id);
+
+    this.setState({ todos: newTodo });
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <h1>TODOS</h1>
+        <FormTodo addTodo={this.addTodo} />
+        <ListTodo
+          todos={this.state.todos}
+          removeTodo={this.removeTodo}
+          toggleComplete={this.toggleComplete}
+        />
+      </div>
     );
-  };
-
-  const removeTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  return (
-    <div className="App">
-      <h1>TODOS</h1>
-      <FormTodo addTodo={addTodo} />
-      <ListTodo
-        todos={todos}
-        removeTodo={removeTodo}
-        toggleComplete={toggleComplete}
-      />
-    </div>
-  );
-};
+  }
+}
 
 export default App;
